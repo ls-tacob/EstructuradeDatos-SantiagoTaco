@@ -1,75 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 
-class Grafo
+namespace CentralidadGrafo
 {
-    private Dictionary<int, List<int>> adyacencia;
-
-    public Grafo()
+    class Program
     {
-        adyacencia = new Dictionary<int, List<int>>();
-    }
-
-    public void AgregarNodo(int nodo)
-    {
-        if (!adyacencia.ContainsKey(nodo))
+        static void Main(string[] args)
         {
-            adyacencia[nodo] = new List<int>();
+            Grafo grafo = new Grafo();
+
+            // Crear el grafo
+            grafo.AgregarArista(1, 2);
+            grafo.AgregarArista(1, 3);
+            grafo.AgregarArista(2, 4);
+            grafo.AgregarArista(3, 4);
+            grafo.AgregarArista(4, 5);
+
+            grafo.MostrarGrafo();
+
+            // Centralidad de grado
+            CentralidadGrado centralidadGrado = new CentralidadGrado(grafo);
+            centralidadGrado.Calcular();
+
+            // Centralidad de cercanía
+            CentralidadCercania centralidadCercania = new CentralidadCercania(grafo);
+            centralidadCercania.Calcular();
         }
-    }
-
-    public void AgregarArista(int origen, int destino)
-    {
-        if (!adyacencia.ContainsKey(origen))
-        {
-            AgregarNodo(origen);
-        }
-        if (!adyacencia.ContainsKey(destino))
-        {
-            AgregarNodo(destino);
-        }
-
-        adyacencia[origen].Add(destino);
-        adyacencia[destino].Add(origen); // Grafo no dirigido
-    }
-
-    public void MostrarGrafo()
-    {
-        foreach (var nodo in adyacencia)
-        {
-            Console.Write(nodo.Key + " -> ");
-            Console.WriteLine(string.Join(", ", nodo.Value));
-        }
-    }
-
-    public void CalcularCentralidadGrado()
-    {
-        Console.WriteLine("\nCentralidad de Grado:");
-        foreach (var nodo in adyacencia)
-        {
-            Console.WriteLine($"Nodo {nodo.Key}: {nodo.Value.Count}");
-        }
-    }
-}
-
-class Program
-{
-    static void Main()
-    {
-        Grafo grafo = new Grafo();
-
-        // Agregar nodos y aristas
-        grafo.AgregarArista(1, 2);
-        grafo.AgregarArista(1, 3);
-        grafo.AgregarArista(2, 4);
-        grafo.AgregarArista(3, 4);
-        grafo.AgregarArista(4, 5);
-
-        // Mostrar el grafo
-        Console.WriteLine("Representación del Grafo:");
-        grafo.MostrarGrafo();
-
-        // Calcular y mostrar centralidad de grado
-        grafo.CalcularCentralidadGrado();
     }
 }
